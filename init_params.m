@@ -20,6 +20,12 @@ T1= N* MFC1(3)*sin(MFC1(2)*atan(MFC1(1)*s-MFC1(4)*(MFC1(1)*s-atan(MFC1(1)*s))));
 T2= N* MFC2(3)*sin(MFC2(2)*atan(MFC2(1)*s-MFC2(4)*(MFC2(1)*s-atan(MFC2(1)*s))));
 T3= N* MFC3(3)*sin(MFC3(2)*atan(MFC3(1)*s-MFC3(4)*(MFC3(1)*s-atan(MFC3(1)*s))));
 
+% Slip regulator tuning parameters
+DERIV_THRESHOLD = 0.4;
+dM = [1 2 5 10 20 40 ];
+
+CRITICAL_SLIP_VEL = 100;
+
 
 % DC motor parameters
  %motor constants
