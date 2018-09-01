@@ -29,12 +29,16 @@ T3= N* MFC3(3)*sin(MFC3(2)*atan(MFC3(1)*s-MFC3(4)*(MFC3(1)*s-atan(MFC3(1)*s))));
 % 
 % der_TH = [40 20 10 7.5 5 3 0 -1];
 % dM_val = [16 8 2 1 0.1 0.1 -0.5 -2 -8]; %slightly less aggressive
-% 
-der_TH = [200 100 40 20 0 -1];
-dM_val = [32 24 16 8 -0.5 -2 -8]; %very good for dry, ice similar to ^, so far the best
-
+% % 
 % der_TH = [200 100 40 20 0 -1];
-% dM_val = [32 24 16 8 -0.1 -2 -8];
+% dM_val = [32 24 16 8 -0.5 -2 -8]; %STAGE 3 best
+
+der_TH = [200 100 40 20 10 0 ];
+dM_val = [32 24 16 4 -0.5 -4 -6]; %STAGE 4
+% der_TH = [200 100 40 20 10 0 ];
+% dM_val = [32 24 16 4 -0.5 -2 -3]; %STAGE 4
+
+
 assert(numel(der_TH)+1 == numel(dM_val), "Thershold and values len");
 
 CRITICAL_SLIP_VEL = 20;
@@ -53,10 +57,11 @@ par_ctr.r = r;
 ppr = 2*pi/1024;                %pulses per revolution
 
 %% DC motor parameters
-k = 0.029;         % motor constants
+k = 0.4;            % motor constants
+b = 0.1;
 
-L = 0.001;          % armature inductance
-R = 3.38;          % resistnace
+L = 0.3;            % armature inductance
+R = 3;              % resistnace
 
 %% PWM regulator params
 Ua = 300;
