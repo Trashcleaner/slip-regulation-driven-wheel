@@ -24,17 +24,22 @@ T3= N* MFC3(3)*sin(MFC3(2)*atan(MFC3(1)*s-MFC3(4)*(MFC3(1)*s-atan(MFC3(1)*s))));
 % der_TH = [50 20 8 4 2 1 0.8 0.6 0.2 0 -1];
 % dM_val = [128 128 128 64 32 16 -2 -4 -8 -16 -32 0];
 
-% der_TH = [1000 500 200 40 20 10 5 2 1 -1 -2 ];
-% dM_val = [128 64 32 16 8 4 0.1 -0.1 -1 -2 -4 -8]; %Ts 0.005 dry quite OK, trans bad
+% der_TH = [1000 500 200 40 20 10 7.5 5 3 0 -1];
+% dM_val = [64 64 32 16 8 2 1 0.1 0.1 -0.5 -2 -8]; %works so so for everything
+% 
+% der_TH = [40 20 10 7.5 5 3 0 -1];
+% dM_val = [16 8 2 1 0.1 0.1 -0.5 -2 -8]; %slightly less aggressive
+% 
+der_TH = [200 100 40 20 0 -1];
+dM_val = [32 24 16 8 -0.5 -2 -8]; %very good for dry, ice similar to ^, so far the best
 
-der_TH = [1000 500 200 40 20 10 5 2 1 -1 -2 ];
-dM_val = [128 64 32 16 8 4 1 0.1 -1 -2 -4 -8]; %
-
+% der_TH = [200 100 40 20 0 -1];
+% dM_val = [32 24 16 8 -0.1 -2 -8];
 assert(numel(der_TH)+1 == numel(dM_val), "Thershold and values len");
 
-CRITICAL_SLIP_VEL = 10;
+CRITICAL_SLIP_VEL = 20;
 ERR_TOLERABLE = 0.1;            %tolerable error in wanted M and resulting M
-Ts = 0.005;                     %recomputing at 1000Hz
+Ts = 0.005;                     %recomputing at 200Hz
 
 par_ctr = struct;
 par_ctr.der_TH = der_TH;
@@ -48,12 +53,10 @@ par_ctr.r = r;
 ppr = 2*pi/1024;                %pulses per revolution
 
 %% DC motor parameters
- %motor constants
-k = 20;     % ?
-B = 10;     % multiplies dFi (back-emf)
+k = 0.029;         % motor constants
 
-L = 0;
-R = 0;
+L = 0.001;          % armature inductance
+R = 3.38;          % resistnace
 
 %% PWM regulator params
 Ua = 300;
