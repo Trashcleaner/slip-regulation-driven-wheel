@@ -21,34 +21,31 @@ T2= N* MFC2(3)*sin(MFC2(2)*atan(MFC2(1)*s-MFC2(4)*(MFC2(1)*s-atan(MFC2(1)*s))));
 T3= N* MFC3(3)*sin(MFC3(2)*atan(MFC3(1)*s-MFC3(4)*(MFC3(1)*s-atan(MFC3(1)*s))));
 
 %% Slip regulator tuning parameters
-% der_TH = [50 20 8 4 2 1 0.8 0.6 0.2 0 -1];
-% dM_val = [128 128 128 64 32 16 -2 -4 -8 -16 -32 0];
 
-% der_TH = [1000 500 200 40 20 10 7.5 5 3 0 -1];
-% dM_val = [64 64 32 16 8 2 1 0.1 0.1 -0.5 -2 -8]; %works so so for everything
-% 
-% der_TH = [40 20 10 7.5 5 3 0 -1];
-% dM_val = [16 8 2 1 0.1 0.1 -0.5 -2 -8]; %slightly less aggressive
-% % 
+% Use with slip_regulation_stage3
 % der_TH = [200 100 40 20 0 -1];
-% dM_val = [32 24 16 8 -0.5 -2 -8]; %STAGE 3 best
+% dM_val = [48 32 16 8 -0.5 -2 -8]; %STAGE 3 best
 
-der_TH = [200 100 40 20 10 0 ];
-dM_val = [32 24 16 4 -0.5 -4 -6]; %STAGE 4
-% der_TH = [200 100 40 20 10 0 ];
-% dM_val = [32 24 16 4 -0.5 -2 -3]; %STAGE 4
+% Use with slip_regulation_stage4
+der_TH = [200 100 40 20 15 10 4 1.5 0.8 0.3 0.1 0 -1];
+dM_val = [48 32 24 8 6 2 0.5 -0.1 -0.5 -1.25 -2.5 -3 -4 -11]; %STAGE 4
 
 
 assert(numel(der_TH)+1 == numel(dM_val), "Thershold and values len");
 
-CRITICAL_SLIP_VEL = 20;
+CRITICAL_SLIP_VEL = 20;                 % when v_s is bigger than this, decrease M_h rapidly
+CRITICAL_M_CALC_REAL_MISMATCH = 10;     % do not decrease M_h when mismatch is bigger than this
 ERR_TOLERABLE = 0.1;            %tolerable error in wanted M and resulting M
-Ts = 0.005;                     %recomputing at 200Hz
+Ts = 0.001;                     %recomputing at 1/TS [Hz]
+dM_default = 16;
 
+% Setup struct which serves to hold control parameters
 par_ctr = struct;
 par_ctr.der_TH = der_TH;
 par_ctr.dM_val = dM_val;
-par_ctr.CRITICAL_SLIP_VEL = CRITICAL_SLIP_VEL;
+par_ctr.dM_default = dM_default;
+par_ctr.CRITICAL_SLIP_VEL = CRITICAL_SLIP_VEL;  
+par_ctr.CRITICAL_M_CALC_REAL_MISMATCH = CRITICAL_M_CALC_REAL_MISMATCH;
 par_ctr.ERR_TOLERABLE = ERR_TOLERABLE;
 par_ctr.TS = Ts;              %sampling time of refreshing params and recomputing;
 par_ctr.r = r;
